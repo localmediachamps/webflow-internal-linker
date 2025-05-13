@@ -1,0 +1,1 @@
+{  "presets": [    [      "next/babel",      {        "preset-typescript": {          "onlyRemoveTypeImports": true,          "allowNamespaces": true,          "allowDeclareFields": true        }      }    ]  ]}
