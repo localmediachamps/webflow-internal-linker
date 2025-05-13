@@ -1,0 +1,1 @@
+﻿const fs = require("fs");const path = require("path");console.log("Running cleanup...");const layoutPath = path.join(process.cwd(), "src", "components", "DashboardLayout.tsx");if (fs.existsSync(layoutPath)) {fs.unlinkSync(layoutPath);console.log("Deleted file");}

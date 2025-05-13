@@ -1,4 +1,25 @@
-"use client";
+// This script will be run as part of the build process to remove problematic files
+const fs = require('fs');
+const path = require('path');
+
+// 1. Delete the problematic DashboardLayout.tsx file
+const layoutFilePath = path.join(__dirname, 'src', 'components', 'DashboardLayout.tsx');
+
+try {
+  if (fs.existsSync(layoutFilePath)) {
+    console.log(`Deleting problematic file: ${layoutFilePath}`);
+    fs.unlinkSync(layoutFilePath);
+    console.log('File deleted successfully');
+  } else {
+    console.log('Layout file does not exist, no need to delete');
+  }
+} catch (err) {
+  console.error('Error deleting layout file:', err);
+}
+
+// 2. Replace the post detail page with a clean version
+const postDetailPath = path.join(__dirname, 'src', 'app', 'dashboard', 'posts', '[id]', 'page.tsx');
+const fixedContent = `"use client";
 
 import React from 'react';
 import LinkSuggestions from '@/components/LinkSuggestions';
@@ -18,7 +39,7 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
     title: 'Understanding Web Accessibility Standards',
     lastUpdated: '2023-07-12',
     slug: 'web-accessibility-standards',
-    content: `
+    content: \`
       <h2>Introduction to Web Accessibility</h2>
       <p>Web accessibility ensures that websites, tools, and technologies are designed and developed so that people with disabilities can use them. More specifically, people can perceive, understand, navigate, and interact with the Web.</p>
       
@@ -36,7 +57,7 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
       
       <h2>Testing Accessibility</h2>
       <p>There are several tools available to test the accessibility of your website, including automated tools and manual testing procedures.</p>
-    `,
+    \`,
     internalLinks: 5,
     externalLinks: 8,
   };
@@ -93,4 +114,12 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
       </div>
     </div>
   );
-}
+}`;
+
+try {
+  console.log(`Updating post detail page: ${postDetailPath}`);
+  fs.writeFileSync(postDetailPath, fixedContent, 'utf8');
+  console.log('Post detail page updated successfully');
+} catch (err) {
+  console.error('Error updating post detail page:', err);
+} 
