@@ -1,5 +1,0 @@
-﻿{
-  "version": 2,
-  "buildCommand": "node vercel.js && NEXT_DISABLE_TYPECHECK=1 next build",
-  "installCommand": "npm install"
-}
