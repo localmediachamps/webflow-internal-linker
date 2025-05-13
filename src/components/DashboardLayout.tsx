@@ -1,3 +1,5 @@
+"use client";
+
 import React, { ReactNode } from 'react';
 import Link from 'next/link';
 import { HomeIcon, DocumentTextIcon, LinkIcon, CogIcon, ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline';
