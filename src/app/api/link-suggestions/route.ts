@@ -14,7 +14,19 @@ export async function POST(req: NextRequest) {
     }
 
     // Get user ID from session
-    const userId = session.user.id;
+    // Get user ID from session email since id might not be available
+    const userEmail = session.user.email;
+    if (!userEmail) {
+      return NextResponse.json({ error: 'User email not found' }, { status: 401 });
+    }
+    
+    // Get user by email
+    const userRecord = await db.getUserByEmail(userEmail);
+    if (!userRecord) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    }
+    
+    const userId = userRecord.id;
 
     // Get request body
     const body = await req.json();
@@ -151,7 +163,18 @@ export async function PUT(req: NextRequest) {
 
     // If approved, implement the link in Webflow
     if (status === 'approved') {
-      const user = await db.getUser(session.user.id);
+      const userEmail = session.user.email;
+      if (!userEmail) {
+        return NextResponse.json({ error: 'User email not found' }, { status: 401 });
+      }
+      
+      // Get user by email
+      const userRecord = await db.getUserByEmail(userEmail);
+      if (!userRecord) {
+        return NextResponse.json({ error: 'User not found' }, { status: 404 });
+      }
+      
+      const user = await db.getUser(userRecord.id);
       if (!user || !user.webflow_access_token) {
         return NextResponse.json({ error: 'Webflow connection required' }, { status: 400 });
       }

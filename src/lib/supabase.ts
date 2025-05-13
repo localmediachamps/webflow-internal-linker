@@ -355,3 +355,17 @@ export const getUserLinkHistory = async (userId: string): Promise<LinkHistory[]>
   
   return data || [];
 }; 
+export async function getUserByEmail(email: string) {
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('email', email)
+    .single();
+    
+  if (error) {
+    console.error('Error fetching user by email:', error);
+    return null;
+  }
+  
+  return data;
+}
