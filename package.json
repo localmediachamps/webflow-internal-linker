@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node cleanup-script.js",
+    "prebuild": "node clean.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
